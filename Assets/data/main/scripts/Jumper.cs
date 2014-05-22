@@ -12,11 +12,29 @@ public class Jumper : MonoBehaviour
 	public float MoveAcceleration = 25;
 	public float MaxMoveVelocity = 25;
 
+/** Privates Attributes ******************************************/
+
+	private bool canJump = false;
+
 /** Interface methods ********************************************/
 
 	public void Jump()
 	{
+		if(canJump)
+		{
+			this.GetComponent<Animator>().SetTrigger ("Jump");
+		}
+	}
+
+	/* Unity */ void _Jump()
+	{
+		lastJumpPos = transform.position;
 		rigidbody2D.AddForce(new Vector2(0, JumpSpeed));
+	}
+
+	public void BackToLastJump()
+	{
+		transform.position = lastJumpPos;
 	}
 
 	public void GoLeft()
@@ -35,12 +53,19 @@ public class Jumper : MonoBehaviour
 		}
 	}
 
-/** Protected attribute ******************************************/
+/** Privates Attributes ******************************************/
+
+	private Vector3 lastJumpPos;
 
 /** Callback Unity ***********************************************/
 
-	private void Update()
+	/* Unity */ void Start()
 	{
-		this.GetComponent<Animator>().SetBool("CanJump", this.rigidbody2D.velocity.y == 0);
+		lastJumpPos = transform.position;
+	}
+
+	/* Unity */ void Update()
+	{
+		canJump = (this.rigidbody2D.velocity.y == 0);
 	}
 }

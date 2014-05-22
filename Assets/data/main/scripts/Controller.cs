@@ -12,16 +12,12 @@ public class Controller : MonoBehaviour
 	// Update is called once per frame
 	void Update() 
 	{
-		int motion = 0;
-
-			 if(Input.GetKey(KeyCode.LeftArrow))  { this.GetComponent<Jumper>().GoLeft()  ; motion = -1; }
-		else if(Input.GetKey(KeyCode.RightArrow)) { this.GetComponent<Jumper>().GoRight() ; motion = 1 ; }
+			 if(Input.GetKey(KeyCode.LeftArrow))  { this.GetComponent<Jumper>().GoLeft()  ; }
+		else if(Input.GetKey(KeyCode.RightArrow)) { this.GetComponent<Jumper>().GoRight() ; }
 
 		if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
 		{
-			this.GetComponent<Animator>().SetTrigger("Jump");
+			this.GetComponent<Jumper>().Jump();
 		}
-
-		this.GetComponent<Animator>().SetInteger("Motion", motion);
 	}
 }
