@@ -46,7 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\data\main\scripts\Editor\ActionArgDrawer.cs" />
+     <Compile Include="Assets\data\main\scripts\Action\Editor\ActionRegisterInspector.cs" />
  <Reference Include="UnityEditor.Graphs">
  <HintPath>D:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
  </Reference>

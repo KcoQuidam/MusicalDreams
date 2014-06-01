@@ -5,13 +5,56 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Action
 {
-	public string name = "";
+/** Unity Configuration ******************************************************************/
 
-	public GameObject fixedTarget;
-	public string componentName;
-	public string methodName;
+	private GameObject fixedTarget;
+	private string componentName;
+	private string methodName;
 
-	public List<Arg> args;
+	private List<Arg> args = new List<Arg>();
+
+/** Initialise ****************************************************************************/
+
+	public Action()
+	{
+	}
+
+	public Action(string description)
+	{
+		string[] values = description.Split(':');
+
+		if(values.Length > 2)
+		{
+			componentName = values[1];
+			methodName = values[2];
+
+			if(values[0].Length > 0)
+			{
+				fixedTarget = GameObject.Find(values[0]);
+			}
+
+			for(int i = 3; i < values.Length; i++)
+			{
+				args.Add(new Arg(values[i]));
+			}
+		}
+		else if(values.Length == 2)
+		{
+			Action based;
+			if(ActionHandler.TryGetGlobalAction(values[1], out based))
+			{
+				componentName = based.componentName;
+				methodName = based.methodName;
+
+				args = based.args;
+
+				fixedTarget = GameObject.Find(values[0]);
+			}
+		}
+	}
+
+
+/** Public Methods *************************************************************************/
 
 	public void Perform(GameObject target)
 	{
@@ -48,15 +91,44 @@ public class Action
 			Float,
 			Bool
 		}
-		
+
+		public Arg(string desc)
+		{
+			desc = desc.Replace("[", "");
+			string[] values = desc.Split(']');
+
+			if(values.Length > 1)
+			{
+				this.type = (Arg.Type) System.Enum.Parse(typeof(Arg.Type), values[0]);
+				this.val = values[1];
+			}
+			else
+			{
+				this.type = Type.String;
+				this.val = values[0];
+			}
+		}
+
 		public Type type = Type.String;
-		
-		public string strValue;
-		public int intValue;
-		public float fltValue;
-		public bool boolValue;
+		public string val;
+
+		public object Val
+		{
+			get
+			{
+				switch(type)
+				{
+					case Arg.Type.String : return val;
+					case Arg.Type.Integer : return int.Parse(val);
+					case Arg.Type.Float : return float.Parse(val);
+					case Arg.Type.Bool : return bool.Parse(val);
+				}
+
+				return null;
+			}
+		}
 	}
-	
+
 	public object[] Args
 	{
 		get
@@ -65,17 +137,24 @@ public class Action
 			
 			foreach(Arg arg in args)
 			{
-				switch(arg.type)
-				{
-				case Arg.Type.String : values.Add(arg.strValue); break;
-				case Arg.Type.Integer : values.Add(arg.intValue); break;
-				case Arg.Type.Float : values.Add(arg.fltValue); break;
-				case Arg.Type.Bool : values.Add(arg.boolValue); break;
-				}
+				values.Add(arg.Val);
 			}
 			
 			return values.ToArray();
 		}
+	}
+
+	private static System.Type TypeToSystemType(Arg.Type type)
+	{
+		switch(type)
+		{
+			case Arg.Type.String : return typeof(string);
+			case Arg.Type.Integer : return typeof(int);
+			case Arg.Type.Float : return typeof(float);
+			case Arg.Type.Bool : return typeof(bool);
+		}
+
+		return typeof(object);
 	}
 	
 	public System.Type[] ArgsTypes
@@ -86,13 +165,7 @@ public class Action
 			
 			foreach(Arg arg in args)
 			{
-				switch(arg.type)
-				{
-				case Arg.Type.String : types.Add(typeof(string)); break;
-				case Arg.Type.Integer : types.Add(typeof(int)); break;
-				case Arg.Type.Float : types.Add(typeof(float)); break;
-				case Arg.Type.Bool : types.Add(typeof(bool)); break;
-				}
+				types.Add(TypeToSystemType(arg.type));
 			}
 			
 			return types.ToArray();

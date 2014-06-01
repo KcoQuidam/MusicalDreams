@@ -32,16 +32,11 @@ public class ColliderHandler : MonoBehaviour
 		}
 	}
 	
-	private void Handle(GameObject target, string actionName)
+	private void Handle(GameObject target, string description)
 	{
-		if(string.IsNullOrEmpty(actionName)) { return; }
+		if(string.IsNullOrEmpty(description)) { return; }
 
-		ActionHandler ah = target.GetComponent<ActionHandler>();
-
-		if(ah == null || !ah.PerformLocalAction(actionName))
-		{
-			ActionHandler.PerformAction(target, actionName);
-		}
+		ActionHandler.S_PerformAction(target, description);
 	}
 
 /** Callbacks Unity **************************************************************************************/

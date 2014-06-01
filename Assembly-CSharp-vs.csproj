@@ -46,16 +46,15 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\data\dark\scripts\ElderStar.cs" />
+     <Compile Include="Assets\data\dark\scripts\StarPlatform.cs" />
      <Compile Include="Assets\data\main\scripts\Action\ActionHandler.cs" />
      <Compile Include="Assets\data\main\scripts\Action\ActionRegister.cs" />
      <Compile Include="Assets\data\main\scripts\Action\_classes\Action.cs" />
-     <Compile Include="Assets\data\main\scripts\Behaviors\Fading\DreamDoorFading.cs" />
-     <Compile Include="Assets\data\main\scripts\Behaviors\Fading\Fader.cs" />
-     <Compile Include="Assets\data\main\scripts\Behaviors\Fading\StarPlatformFading.cs" />
-     <Compile Include="Assets\data\main\scripts\CharacterApparence.cs" />
+     <Compile Include="Assets\data\main\scripts\Character\CharacterApparence.cs" />
+     <Compile Include="Assets\data\main\scripts\Character\Jumper.cs" />
      <Compile Include="Assets\data\main\scripts\ColliderHandler.cs" />
-     <Compile Include="Assets\data\main\scripts\Controller.cs" />
-     <Compile Include="Assets\data\main\scripts\Jumper.cs" />
+     <Compile Include="Assets\data\main\scripts\KeyHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

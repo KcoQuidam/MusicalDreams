@@ -6,68 +6,75 @@ public class ActionHandler : MonoBehaviour
 /** Statical Configurations ******************************************************************************/
 
 	private static Dictionary<string, Action> globalActions = new Dictionary<string, Action>();
+	private static Dictionary<string, Action> alreadyRegisteredActions = new Dictionary<string, Action>();
 
 	public static readonly string GLOBAL_ACTION_MARKER = "global:";
+	public static readonly string LOCAL_ACTION_MARKER  = "local:";
 	
-/** Publics Methods **************************************************************************************/
+/** Performing Methods **************************************************************************************/
 
-	/** Perform a globally registered action.
-	 */
-	public bool PerformGlobalAction(string name)
+	public void PerformLocalAction(string nameOrDescription)
 	{
-		return ActionHandler.PerformAction(this.gameObject, name);
+		ActionHandler.S_PerformAction(this.gameObject, nameOrDescription);
+	}
+
+	public void PerformAction(GameObject target, string nameOrDescription)
+	{
+		ActionHandler.S_PerformAction(target, nameOrDescription);
+	}
+
+	/** Perform an action.
+	 */
+	public static void S_PerformAction(GameObject target, string nameOrDescription)
+	{
+		Action action = null;
+
+		if(   !TryGetGlobalAction(nameOrDescription, out action) 
+		   && !TryGetLocalAction(target, nameOrDescription, out action)
+		   && !alreadyRegisteredActions.TryGetValue(nameOrDescription, out action))
+		{
+			action = new Action(nameOrDescription); 
+			alreadyRegisteredActions.Add(nameOrDescription, action);
+		}
+
+		action.Perform(target);
 	}
 	
-	/** Perform a locally registered action.
-	 */
-	public bool PerformLocalAction(string name)
-	{
-		if(string.IsNullOrEmpty(name)) { Debug.LogWarning("Cannot perform local action, searched name is null or empty"); return false; }
 
-		foreach(var actionRegister in this.GetComponents<ActionRegister>())
+
+	public static bool TryGetLocalAction(GameObject target, string name, out Action action)
+	{
+		foreach(var actionRegister in target.GetComponents<ActionRegister>())
 		{
-			if(name.Equals(actionRegister.action.name))
+			if(name.Equals(actionRegister.actionName))
 			{
-				actionRegister.action.Perform(this.gameObject);
-				
-				return true;
+				action = actionRegister.Action; return true;
 			}
 		}
-		
-		Debug.LogWarning ("Cannot perform local action with id " + name + " not registered"); return false;
+
+		action = null; return false;
 	}
+
+	public static bool TryGetGlobalAction(string name, out Action action)
+	{
+		return globalActions.TryGetValue(GLOBAL_ACTION_MARKER + name, out action);
+	}
+
+/** Register action *************************************************************************************/
 
 	/** Register an action has global.
 	 */
-	public static bool RegisterAction(Action action)
+	public static bool RegisterAction(string actionName, Action action)
 	{
-		if(!action.name.StartsWith(GLOBAL_ACTION_MARKER)) 
+		if(!globalActions.ContainsKey(actionName)) 
 		{
-			action.name = GLOBAL_ACTION_MARKER + action.name;
+			globalActions.Add(actionName, action);
+			return true;
 		}
 
-		globalActions.Add(action.name, action); return true;
-	}
+		Debug.LogWarning("Warning the global action " + actionName + " already was register");
+		return false;
 
-	/** Staticaly Perform a globally registered action.
-	 */
-	public static bool PerformAction(GameObject sender, string name)
-	{
-		if(string.IsNullOrEmpty(name)) { Debug.LogWarning("Cannot perform global action, searched name is null or empty"); return false; }
-
-		name = GLOBAL_ACTION_MARKER + name;
-
-		foreach(var action in globalActions)
-		{
-			if(name.Equals(action.Value.name))
-			{
-				action.Value.Perform(sender); 
-				
-				return true;
-			}
-		}
-		
-		Debug.LogWarning ("Cannot perform global action with id " + name + " not registered"); return false;
 	}
 
 /** Callbacks Unity **************************************************************************************/
