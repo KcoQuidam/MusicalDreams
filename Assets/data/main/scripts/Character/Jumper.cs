@@ -61,8 +61,6 @@ public class Jumper : MonoBehaviour
 	{
 		if(canSwim && rigidbody2D.velocity.y < MaxSwimVelocity) 
 		{
-			Debug.Log ("Swimming");
-
 			rigidbody2D.AddForce(new Vector2(0, SwimAcceleration * Time.deltaTime));
 		}
 	}

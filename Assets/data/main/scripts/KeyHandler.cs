@@ -5,6 +5,10 @@ public class KeyHandler : MonoBehaviour
 {
 /** Unity Configuration **********************************************************/
 
+	/** Control Name for configuration
+	 */
+	public string controlName;
+
 	/** Key Configuration
 	 */
 	public KeyCode key;

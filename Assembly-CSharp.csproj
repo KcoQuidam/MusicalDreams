@@ -46,11 +46,12 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\data\dark\scripts\ElderStar.cs" />
-     <Compile Include="Assets\data\dark\scripts\StarPlatform.cs" />
+     <Compile Include="Assets\data\dark-1\scripts\ElderStar.cs" />
+     <Compile Include="Assets\data\dark-1\scripts\StarPlatform.cs" />
      <Compile Include="Assets\data\main\scripts\Action\ActionHandler.cs" />
      <Compile Include="Assets\data\main\scripts\Action\ActionRegister.cs" />
      <Compile Include="Assets\data\main\scripts\Action\_classes\Action.cs" />
+     <Compile Include="Assets\data\main\scripts\Camera\Camera2DManager.cs" />
      <Compile Include="Assets\data\main\scripts\Character\CharacterApparence.cs" />
      <Compile Include="Assets\data\main\scripts\Character\Jumper.cs" />
      <Compile Include="Assets\data\main\scripts\ColliderHandler.cs" />
