@@ -1,9 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\data\main\scripts\Action\ActionRegister.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BGMManager.cs">
     <Files>
+      <File FileName="Assets\data\main\scripts\Camera\Camera2DManager.cs" Line="16" Column="1" />
       <File FileName="Assets\data\main\scripts\Character\Jumper.cs" Line="1" Column="1" />
       <File FileName="Assets\data\main\scripts\Action\ActionRegister.cs" Line="1" Column="1" />
+      <File FileName="Assets\BGMManager.cs" Line="59" Column="38" />
+      <File FileName="Assets\data\main\scripts\Action\_classes\Action.cs" Line="67" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
