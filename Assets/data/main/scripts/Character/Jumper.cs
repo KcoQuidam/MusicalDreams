@@ -85,6 +85,6 @@ public class Jumper : MonoBehaviour
 
 	/* Unity */ void Update()
 	{
-		canJump = (this.rigidbody2D.velocity.y == 0 || canSwim);
+		canJump = (this.rigidbody2D.velocity.y < 0.01f && this.rigidbody2D.velocity.y > -0.01f || canSwim);
 	}
 }
