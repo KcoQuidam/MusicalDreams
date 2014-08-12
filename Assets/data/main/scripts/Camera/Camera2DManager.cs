@@ -16,24 +16,29 @@ public class Camera2DManager : MonoBehaviour {
 
 /** Actions Method *******************************/
 
-	public void SetDeltaPosition(float x, float y) {
+	public void SetDeltaPosition(float x, float y) 
+	{
 		deltaPosition.x = x;
 		deltaPosition.y = y;
 	}
 
-	public void SwitchTo(string gameObjectName) {
+	public void SwitchTo(string gameObjectName) 
+	{
 		this.SwitchTo(gameObjectName, null);
 	}
 
-	public void SwitchTo(string gameObjectName, Action callbackAction) {
+	public void SwitchTo(string gameObjectName, Action callbackAction) 
+	{
 		this.SwitchTo(gameObjectName, 1f, callbackAction);
 	}
 
-	public void SwitchTo(string gameObjectName, float timeToTravel, Action callbackAction) {
+	public void SwitchTo(string gameObjectName, float timeToTravel, Action callbackAction) 
+	{
 		this.SwitchTo(gameObjectName, timeToTravel, 0.001f, callbackAction);
 	}
 
-	public void SwitchTo(string gameObjectName, float timeToTravel, float travelingPrecision, Action callbackAction) {
+	public void SwitchTo(string gameObjectName, float timeToTravel, float travelingPrecision, Action callbackAction) 
+	{
 		if (nextTarget != null) { return; }
 
 		nextTarget = GameObject.Find(gameObjectName);
@@ -42,7 +47,8 @@ public class Camera2DManager : MonoBehaviour {
 
 		actionToPerform = callbackAction;
 
-		if (timeToTravel <= 0) {
+		if (timeToTravel <= 0) 
+		{
 			target = nextTarget;
 			nextTarget = null;
 
@@ -57,19 +63,27 @@ public class Camera2DManager : MonoBehaviour {
 		}
 	}
 
+	public void StopFollowing() 
+	{
+		target = null;
+	}
+
 /** Callback Unity *******************************/
 
-	/* Unity */ void Update () {
-
+	/* Unity */ void Update () 
+	{
 		float x = 0;
 		float y = 0;
 
-		if(nextTarget != null) {
+		if(nextTarget != null) 
+		{
 			x = (xTarget - this.transform.position.x)*Time.deltaTime/travelingTime;
 			y = (yTarget - this.transform.position.y)*Time.deltaTime/travelingTime;
 
-			if(x  < this.travelingPrecision && x > -this.travelingPrecision) {
-				if(actionToPerform != null) {
+			if(x  < this.travelingPrecision && x > -this.travelingPrecision) 
+			{
+				if(actionToPerform != null) 
+				{
 					actionToPerform.Perform(nextTarget);
 				}
 

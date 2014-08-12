@@ -67,6 +67,28 @@ public class GameObjectManager : MonoBehaviour {
 		}
 	}
 
+	public void SetPosition(string gameObjectName, string targetName)
+	{
+		GameObject target = GameObject.Find(targetName);
+
+		if(target != null)
+		{
+			Vector3 position = target.transform.position;
+			this.SetPosition(gameObjectName, position.x, position.y, position.z);
+		}
+	}
+
+	public void SetPosition(string gameObjectName, float x, float y, float z)
+	{
+		GameObject target = GameObject.Find(gameObjectName);
+
+		if(target != null)
+		{
+			Vector3 position = target.transform.position;
+			target.transform.Translate(x - position.x, y - position.y, z - position.z);
+		}
+	}
+
 	public void Wait(float time, Action callbackAction) 
 	{
 		this.currentWaitingCallBack = callbackAction;
